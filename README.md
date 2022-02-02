@@ -1,6 +1,13 @@
 # Runpe-ProcessHollowing
 Fud Runpe Av Evasion
 
+Öncellikle Runpeyi Githubdan indirdiğimiz Otomasyon Form Game Tarzı Projelerin İçine Koyuyoruz 
+
+daha Sora obfuscate Ettikten sora Undetected oluyor ondan sora kullanabilirsiniz 
+
+Developer İntrusive
+
+
 -------------------------------------------------------------
 İnjection List
 
