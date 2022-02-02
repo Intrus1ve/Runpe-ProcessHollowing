@@ -9,7 +9,7 @@ daha Sora obfuscate Ettikten sora Undetected oluyor ondan sora kullanabilirsiniz
 
 Developer İntrusive
 -------------------
-En
+EN
 
 
 Fud Runpe Av Evasion
