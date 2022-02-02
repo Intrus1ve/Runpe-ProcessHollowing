@@ -1,4 +1,6 @@
 # Runpe-ProcessHollowing
+TR
+
 Fud Runpe Av Evasion
 
 Öncellikle Runpeyi Githubdan indirdiğimiz Otomasyon Form Game Tarzı Projelerin İçine Koyuyoruz 
@@ -6,7 +8,15 @@ Fud Runpe Av Evasion
 daha Sora obfuscate Ettikten sora Undetected oluyor ondan sora kullanabilirsiniz 
 
 Developer İntrusive
---------------------
+-------------------
+En
+
+
+Fud Runpe Av Evasion
+
+First of all, we Put Runpey Into Automation Forms-Style Projects that we have downloaded from Github
+
+after you have obfuscated more Sora, you can use from it that sora is getting Undetected
 
 -------------------------------------------------------------
 İnjection List Dotnet
