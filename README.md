@@ -29,6 +29,8 @@ C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\vbc.exe
 
 C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\RegSvcs.exe
 
+C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\CasPol.exe
+
 --------------------------------------------------------------------
 İnjection List Native
 
