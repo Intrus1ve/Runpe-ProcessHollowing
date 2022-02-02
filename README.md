@@ -9,7 +9,7 @@ Developer İntrusive
 --------------------
 
 -------------------------------------------------------------
-İnjection List
+İnjection List Dotnet
 
 C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\RegAsm.exe
 
@@ -19,9 +19,12 @@ C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\vbc.exe
 
 C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\RegSvcs.exe
 
+--------------------------------------------------------------------
+İnjection List Native
+
 C:\\Windows\\System32\\svchost.exe
 
-C:\\Windows\\System32\\schtasks.exe
+C:\\Windows\\System32\\schtasks.exe                    
 
 C:\\Windows\\explorer.exe
 
